@@ -1,0 +1,16 @@
+Symbol table
+name	addressTERMPROJ	0X3A0
+LBL1	0X3A0
+LBL2	0X3A6
+LBL2	0X3A6
+TOP	0X3A9
+*************************************************************
+Line no.	Address	Label	Op-code	Operands	Comments
+1	0X3A0	TERMPROJ	START	3A0
+2	.THIS IS A COMMENT LINE
+3	0X3A0	LBL1	BYTE	c'ABCDEF'
+4	0X3A6	LBL2	RESB
+5	0X3A6	LBL2	RESW	1
+6	0X3A9		bbb	test
+7	0X3A9	TOP	LDA	ZERO
+8	0X3AC		LDX	#INDEX
