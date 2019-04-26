@@ -1,23 +1,20 @@
-address = {}
-label = {}
-opcode = {}
-operand = {}
-comment = {}
-lineCounter = 0
-commentCounter = 0
-commentLocation = {}
-programCounter = 0
-currentAddress = 0
-foundStart = 0
+import string
+from dictionaries import *
 
-dict={'RMO': 2, 'LDCH': 3, 'STCH': 3, '+LDCH': 4, '+STCH': 4, 'ADD': 3, 'SUB': 3, 'ADDR': 3,
-      '+ADD': 4, '+SUB': 4, '+ADDR': 4,'SUBR': 2,
-      'COMP': 3, '+COMP': 4, 'COMPR': 2,
-      'J': 3, 'JEQ': 3,'JLT': 3, 'JGT': 3, 'TIX': 3, 'TIXR': 2,
-      '+J': 4, '+JEQ': 4,'+JLT': 4, '+JGT': 4, '+TIX': 4,
-      'LDA' : 3 , 'STA': 3,'+LDA': 4, '+STA': 4,'LDB': 3, 'STB': 3,'+LDB': 4, '+STB': 4,
-      'LDL': 3, 'STL': 3,'+LDL': 4, '+STL': 4,'LDS': 3, 'STS': 3,'+LDS': 4, '+STS': 4,
-      'LDX': 3, 'STX': 3,'+LDX': 4, '+STX': 4,'LDT': 3, 'STT': 3,'+LDT': 4, '+STT': 4}
+
+def is_hex(s):
+    hex_digits = set(string.hexdigits)
+    # if s is long, then it is faster to check against a set
+    return all(c in hex_digits for c in s)
+
+
+def is_hex(s):
+    try:
+
+        int(s, 16)
+        return True
+    except ValueError:
+        return False
 
 def getPC(op, operand):
     if op.upper() in dict:
@@ -30,8 +27,11 @@ def getPC(op, operand):
         y = operand.split(',')
         return 3 * len(y)
     elif op.upper() == 'BYTE':
-        if "c'" in operand:
+        if "c'" in str(operand).lower():
             return  len(operand) - 3
+        if "x'" in str(operand).lower():
+            return int(3*len(operand)-3)+1
+
     else:
         # print("elseeeee")
         return 0
@@ -42,6 +42,8 @@ def readFile():
     global lineCounter, commentCounter,programCounter,foundStart
     file = open('input.txt', 'r')
     for line in file:
+        if line[0] == "\n":
+            continue
         if line[-1] == "\n":
             line = line[:-1]
         if line[0] == ".":
@@ -66,7 +68,7 @@ def readFile():
         comment[lineCounter] = 0
         opcode[lineCounter] = fields[1]
         if opcode[lineCounter].lower() == "start" and foundStart == 0:
-            programCounter = int(operand[lineCounter],16)
+            programCounter = int(operand[lineCounter], 16)
             # print(hex(programCounter))
         else:
             # print(str(opcode[lineCounter]),str(operand[lineCounter]))
@@ -89,7 +91,8 @@ def writeFile():
     file.write("*************************************************************\n")
     file.write("Line no.\t" + "Address\t" + "Label\t" + "Op-code\t" + "Operands\t" + "Comments\n")
     for i in range(lineCounter):
-        print("OUTPUT")
+        err = checkForError(i)
+
         if comment[i] == 0:
             if operand[i] != 0:
                 file.write(str(i+1) + "\t" + str(hex(address[i])).upper() + "\t" + str(label[i]) + "\t" + str(opcode[i]) + "\t" + str(
@@ -99,10 +102,50 @@ def writeFile():
 
         else:
             file.write(str(i+1) +"\t"+str(comment[i]) + "\n")
+        if err != 0:
+            file.write(str(err) + "\n")
     file.close()
+
+
+
+
+
+
+
+def checkForError(i):
+    global lineCounter
+    err = 0
+
+    for j in range(i+1,lineCounter):
+        if label[i] == label[j] and label[j] != 0 and label[j] != "" :
+            err = "\t-----ERROR: duplicate label "+label[i]+"-----"
+
+    if label[i] != "" and label[i] !=0 and str(opcode[i]).lower() == "end":
+        print("meaw")
+        err = "\t-----ERROR: this statement can’t have a label "
+    elif str(opcode[i]).lower() in directives:
+        print("meaw2")
+        err = "\t-----ERROR: wrong operation prefix "+opcode[i]+"-----"
+    elif str(opcode[i]).lower() not in instructionDict and opcode[i] != 0:
+        err = "\t-----ERROR:unrecognized operation code "+opcode[i]+"-----"
+    elif isinstance(operand[i],str) and not(is_hex(str(operand[i][2:-1]))) and str(opcode[i]).lower() == "byte":
+        err = "\t-----ERROR: not a hexadecimal string " + operand[i]+"-----"
+    elif isinstance(opcode[i],str) and opcode[i] in notFormat4:
+        err = "\t-----ERROR: operand cant be format 4: " + operand[i]+"-----"
+    elif not("end" in str(opcode).lower()) and i == lineCounter-2:
+
+        err = "\t-----ERROR: missing end statement-----"
+
+    return err
+
+
+
 
 
 readFile()
 writeFile()
+# for i in range(lineCounter):
+#         print(errors[i])
+
 # for i in range(lineCounter):
 #     print(str(i)+" "+str(hex(address[i]))+" "+str(label[i])+" "+str(opcode[i])+" "+str(operand[i])+"\t"+str(comment[i]))
