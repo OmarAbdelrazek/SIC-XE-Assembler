@@ -6,6 +6,7 @@ label
 LBL3 BYTE         x'ABCrDEF'
  RESW 1
 LBL3 lda test
+ j top
 .comment 2
  lda meaw3
 LBL2 RESB
