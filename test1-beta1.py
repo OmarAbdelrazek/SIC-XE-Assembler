@@ -64,12 +64,18 @@ def readFile():
             operand[lineCounter] = 0
         else:
             operand[lineCounter] = fields[2]
+        if len(fields) < 3:
+            opcode[lineCounter] = "@"
+        else:
+            opcode[lineCounter] = fields[1]
         label[lineCounter] = fields[0]
         comment[lineCounter] = 0
-        opcode[lineCounter] = fields[1]
+        #opcode[lineCounter] = fields[1]
         if opcode[lineCounter].lower() == "start" and foundStart == 0:
             programCounter = int(operand[lineCounter], 16)
             # print(hex(programCounter))
+        elif  opcode[lineCounter].lower() == "org":
+            programCounter = int(operand[lineCounter], 16)
         else:
             # print(str(opcode[lineCounter]),str(operand[lineCounter]))
             programCounter = programCounter+getPC(opcode[lineCounter],operand[lineCounter])
@@ -116,25 +122,36 @@ def checkForError(i):
     global lineCounter
     err = 0
 
-    for j in range(i+1,lineCounter):
+    for j in range(i):
         if label[i] == label[j] and label[j] != 0 and label[j] != "" :
             err = "\t-----ERROR: duplicate label "+label[i]+"-----"
+            break
 
-    if label[i] != "" and label[i] !=0 and str(opcode[i]).lower() == "end":
-        print("meaw")
+    if label[i] != "" and label[i] !=0 and (str(opcode[i]).lower() == "end" or str(opcode[i]).lower() == "org") :
         err = "\t-----ERROR: this statement can’t have a label "
+    elif opcode[i]== "@" :
+        err = "\t-----ERROR: missing operation-----"
     elif str(opcode[i]).lower() in directives:
-        print("meaw2")
         err = "\t-----ERROR: wrong operation prefix "+opcode[i]+"-----"
     elif str(opcode[i]).lower() not in instructionDict and opcode[i] != 0:
         err = "\t-----ERROR:unrecognized operation code "+opcode[i]+"-----"
     elif isinstance(operand[i],str) and not(is_hex(str(operand[i][2:-1]))) and str(opcode[i]).lower() == "byte":
         err = "\t-----ERROR: not a hexadecimal string " + operand[i]+"-----"
     elif isinstance(opcode[i],str) and opcode[i] in notFormat4:
-        err = "\t-----ERROR: operand cant be format 4: " + operand[i]+"-----"
+        err = "\t-----ERROR: cant be format 4: " + operand[i]+"-----"
     elif not("end" in str(opcode).lower()) and i == lineCounter-2:
-
         err = "\t-----ERROR: missing end statement-----"
+    elif operand[i]==0 and not str(opcode[i]).lower()=="base":
+        err = "\t-----ERROR: missing operand-----"
+
+    elif str(opcode[i]).lower() in ropcodes:
+        print (opcode[i])
+        register=str(operand[i]).split(',')
+        for k in range (len(register)):
+            if register[k].lower() not in registers:
+                err = "\t-----ERROR: illegal address for register-----"
+                break
+
 
     return err
 

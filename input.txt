@@ -1,11 +1,13 @@
 TERMPROJ START 3A0
 .THIS IS A COMMENT LINE
 LBL1 BYTE         C'ABCDEF'
+   addr   a,b
+label
 LBL3 BYTE         x'ABCrDEF'
-LBL2 +RESW 1
- bbb test
+ RESW 1
+LBL3 lda test
 LBL2 RESB
+   END    1000
 TOP LDA ZERO
  LDX #INDEX
-test1 end TERMPROJ
  +rmo meaw
