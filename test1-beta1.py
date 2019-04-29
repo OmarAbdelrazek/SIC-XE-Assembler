@@ -141,7 +141,7 @@ def checkForError(i):
         err = "\t-----ERROR: cant be format 4: " + operand[i]+"-----"
     elif not("end" in str(opcode).lower()) and i == lineCounter-2:
         err = "\t-----ERROR: missing end statement-----"
-    elif operand[i]==0 and not str(opcode[i]).lower()=="base":
+    elif operand[i]==0 and not str(opcode[i]).lower()=="base" and not(isinstance(comment[i],str)):
         err = "\t-----ERROR: missing operand-----"
 
     elif str(opcode[i]).lower() in ropcodes:
@@ -151,6 +151,18 @@ def checkForError(i):
             if register[k].lower() not in registers:
                 err = "\t-----ERROR: illegal address for register-----"
                 break
+    elif isinstance(operand[i],str) and isinstance(opcode[i],str)   and not(opcode[i].upper() in directives)\
+        and operand[i][0:1] != "#"and operand[i][0:1].lower() != "x" and operand[i][0:1].lower() != "c":
+            found = 0
+            print(operand[i])
+            for j in range(lineCounter):
+                if operand[i] == label[j]:
+                    found += 1
+
+
+            if found == 0:
+                err = "\t-----ERROR: undefined label "+operand[i]+"-----"
+
 
 
     return err

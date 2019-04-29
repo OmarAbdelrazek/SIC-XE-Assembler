@@ -6,8 +6,12 @@ label
 LBL3 BYTE         x'ABCrDEF'
  RESW 1
 LBL3 lda test
+.comment 2
+ lda meaw3
 LBL2 RESB
    END    1000
 TOP LDA ZERO
+meaw3 resw 1
+zero resw 1
  LDX #INDEX
  +rmo meaw

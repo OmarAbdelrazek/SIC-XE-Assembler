@@ -1,26 +1,35 @@
 Symbol table
 name	addressTERMPROJ	0X3A0
 LBL1	0X3A0
-LBL3	0X3A6
-LBL2	0X3C2
-LBL2	0X3C2
-TOP	0X3C2
-test1	0X3C8
+label	0X3A9
+LBL3	0X3A9
+LBL3	0X3C8
+LBL2	0X3CE
+TOP	0X3CE
+meaw3	0X3D1
+zero	0X3D4
 *************************************************************
 Line no.	Address	Label	Op-code	Operands	Comments
 1	0X3A0	TERMPROJ	START	3A0
 2	.THIS IS A COMMENT LINE
 3	0X3A0	LBL1	BYTE	C'ABCDEF'
-4	0X3A6	LBL3	BYTE	x'ABCrDEF'
+4	0X3A6		addr	a,b
+5	0X3A9	label	@
+	-----ERROR: missing operation-----
+6	0X3A9	LBL3	BYTE	x'ABCrDEF'
 	-----ERROR: not a hexadecimal string x'ABCrDEF'-----
-5	0X3C2	LBL2	+RESW	1
-	-----ERROR:unrecognized operation code +RESW-----
-6	0X3C2		bbb	test
-	-----ERROR:unrecognized operation code bbb-----
-7	0X3C2	LBL2	RESB
-8	0X3C2	TOP	LDA	ZERO
-9	0X3C5		LDX	#INDEX
-10	0X3C8	test1	end	TERMPROJ
-	-----ERROR: this statement can’t have a label 
-11	0X3C8		+rmo	meaw
+7	0X3C5		RESW	1
+8	0X3C8	LBL3	lda	test
+	-----ERROR: undefined label test-----
+9	.comment 2
+10	0X3CB		lda	meaw3
+11	0X3CE	LBL2	@
+	-----ERROR: missing operation-----
+12	0X3CE		END	1000
+13	0X3CE	TOP	LDA	ZERO
+	-----ERROR: undefined label ZERO-----
+14	0X3D1	meaw3	resw	1
+15	0X3D4	zero	resw	1
+16	0X3D7		LDX	#INDEX
+17	0X3DA		+rmo	meaw
 	-----ERROR:unrecognized operation code +rmo-----
