@@ -151,7 +151,8 @@ def checkForError(i):
         err = "\t-----ERROR: missing end statement-----"
     elif operand[i]==0 and not str(opcode[i]).lower()=="base" and not(isinstance(comment[i],str)):
         err = "\t-----ERROR: missing operand-----"
-    elif (str(opcode[i]).lower() == "equ" or str(opcode[i]).lower() == "resw" or str(opcode[i]).lower() == "resb"):
+    elif (str(opcode[i]).lower() == "equ" or str(opcode[i]).lower() == "resw" or str(opcode[i]).lower() == "resb"\
+            or str(opcode[i]).lower() == "byte" or str(opcode[i]).lower() == "word"):
         if str(label[i]) == "":
             err = "\t-----ERROR: missing label-----"
 
