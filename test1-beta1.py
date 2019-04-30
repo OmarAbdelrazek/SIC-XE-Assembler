@@ -1,4 +1,5 @@
 import string
+import numbers
 from dictionaries import *
 
 
@@ -64,7 +65,7 @@ def readFile():
             operand[lineCounter] = 0
         else:
             operand[lineCounter] = fields[2]
-        if len(fields) < 3:
+        if len(fields) < 2:
             opcode[lineCounter] = "@"
         else:
             opcode[lineCounter] = fields[1]
@@ -115,7 +116,14 @@ def writeFile():
 
 
 
-
+def isString(s):
+    i = len(s)-1
+    print(s[i])
+    while i:
+        if (s[i] >= "a" and s[i] <= "z") or (s[i] >= "A" and s[i] <= "Z"):
+            return "true"
+        i -= 1
+    return "false"
 
 
 def checkForError(i):
@@ -143,6 +151,9 @@ def checkForError(i):
         err = "\t-----ERROR: missing end statement-----"
     elif operand[i]==0 and not str(opcode[i]).lower()=="base" and not(isinstance(comment[i],str)):
         err = "\t-----ERROR: missing operand-----"
+    elif (str(opcode[i]).lower() == "equ" or str(opcode[i]).lower() == "resw" or str(opcode[i]).lower() == "resb"):
+        if str(label[i]) == "":
+            err = "\t-----ERROR: missing label-----"
 
     elif str(opcode[i]).lower() in ropcodes:
         print (opcode[i])
@@ -152,16 +163,29 @@ def checkForError(i):
                 err = "\t-----ERROR: illegal address for register-----"
                 break
     elif isinstance(operand[i],str) and isinstance(opcode[i],str)   and not(opcode[i].upper() in directives)\
-        and operand[i][0:1] != "#"and operand[i][0:1].lower() != "x" and operand[i][0:1].lower() != "c":
-            found = 0
-            print(operand[i])
-            for j in range(lineCounter):
-                if operand[i] == label[j]:
-                    found += 1
+        and  operand[i][0:1].lower() != "x" and operand[i][0:1].lower() != "c":
+            if operand[i][0:1] == "#" :
+                if (isString(operand[i][1:]) == "true"):
+                    found = 0
+                    print(operand[i][1:])
+                    for j in range(lineCounter):
+                        if isinstance(label[j],int) :
+                            continue
+                        elif operand[i][1:] == label[j] :
+                            print(operand[i] +"    "+label[j])
+                            found = 1
+                else:
+                    found = 1
+            else :
+                found =0
+                # print(operand[i])
+                for j in range(lineCounter):
+                    if operand[i] == label[j]:
+                        found = 1
 
 
             if found == 0:
-                err = "\t-----ERROR: undefined label "+operand[i]+"-----"
+                err = "\t-----ERROR: undefined symbol "+operand[i]+"-----"
 
 
 

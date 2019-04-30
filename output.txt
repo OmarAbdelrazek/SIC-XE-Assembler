@@ -6,8 +6,8 @@ LBL3	0X3A9
 LBL3	0X3C8
 LBL2	0X3D1
 TOP	0X3D1
-meaw3	0X3D4
-zero	0X3D7
+zero	0X3D4
+ttt	0X3DD
 *************************************************************
 Line no.	Address	Label	Op-code	Operands	Comments
 1	0X3A0	TERMPROJ	START	3A0
@@ -20,18 +20,17 @@ Line no.	Address	Label	Op-code	Operands	Comments
 	-----ERROR: not a hexadecimal string x'ABCrDEF'-----
 7	0X3C5		RESW	1
 8	0X3C8	LBL3	lda	test
-	-----ERROR: undefined label test-----
-9	0X3CB		j	top
-	-----ERROR: undefined label top-----
+	-----ERROR: undefined symbol test-----
+9	0X3CB		j	TOP
 10	.comment 2
 11	0X3CE		lda	meaw3
+	-----ERROR: undefined symbol meaw3-----
 12	0X3D1	LBL2	@
 	-----ERROR: missing operation-----
 13	0X3D1		END	1000
-14	0X3D1	TOP	LDA	ZERO
-	-----ERROR: undefined label ZERO-----
-15	0X3D4	meaw3	resw	1
-16	0X3D7	zero	resw	1
-17	0X3DA		LDX	#INDEX
-18	0X3DD		+rmo	meaw
-	-----ERROR:unrecognized operation code +rmo-----
+14	0X3D1	TOP	LDA	zero
+15	0X3D4	zero	resw	1
+16	0X3D7		LDX	#ttt
+17	0X3DA		lda	meaw
+	-----ERROR: undefined symbol meaw-----
+18	0X3DD	ttt	resw	1
