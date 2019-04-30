@@ -177,6 +177,8 @@ def checkForError(i):
                             found = 1
                 else:
                     found = 1
+            elif  operand[i][0:1] != "#" and isString(operand[i][1:]) == "false":
+                found = 1
             else :
                 found =0
                 # print(operand[i])

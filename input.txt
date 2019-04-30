@@ -12,6 +12,7 @@ LBL3 lda test
 LBL2 RESB
    END    1000
 TOP LDA zero
+ lda 1000
 zero resw 1
  LDX #ttt
  lda meaw
