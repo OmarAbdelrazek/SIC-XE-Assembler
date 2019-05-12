@@ -8,11 +8,12 @@ LBL3 BYTE         x'ABCrDEF'
 LBL3 lda test
  j TOP
 .comment 2
- lda meaw3
+ rmo meaw3
 LBL2 RESB
    END    1000
 TOP LDA zero
- lda 1000
+ +lda 1000
+ lda #ttttt
 zero resw 1
  LDX #ttt
  lda meaw

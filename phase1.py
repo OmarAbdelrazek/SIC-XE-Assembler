@@ -118,7 +118,7 @@ def writeFile():
 
 def isString(s):
     i = len(s)-1
-    print(s[i])
+    # print(s[i])
     while i:
         if (s[i] >= "a" and s[i] <= "z") or (s[i] >= "A" and s[i] <= "Z"):
             return "true"
@@ -157,7 +157,7 @@ def checkForError(i):
             err = "\t-----ERROR: missing label-----"
 
     elif str(opcode[i]).lower() in ropcodes:
-        print (opcode[i])
+        # print (opcode[i])
         register=str(operand[i]).split(',')
         for k in range (len(register)):
             if register[k].lower() not in registers:
@@ -168,12 +168,12 @@ def checkForError(i):
             if operand[i][0:1] == "#" :
                 if (isString(operand[i][1:]) == "true"):
                     found = 0
-                    print(operand[i][1:])
+                    # print(operand[i][1:])
                     for j in range(lineCounter):
                         if isinstance(label[j],int) :
                             continue
                         elif operand[i][1:] == label[j] :
-                            print(operand[i] +"    "+label[j])
+                            # print(operand[i] +"    "+label[j])
                             found = 1
                 else:
                     found = 1
@@ -195,11 +195,80 @@ def checkForError(i):
     return err
 
 
+def CombineByte(b1, b2):
+    combined = b1 << 8 | b2
+    return combined
+def CombineFlags(b1, b2):
+    combined = b1 << 6 | b2
+    return combined
+def Combine12(b1, b2):
+    combined = b1 << 12 | b2
+    return combined
+def Combine20(b1, b2):
+    combined = b1 << 20 | b2
+    return combined
+
+
+
+# def getObjectCode():
+#     global lineCounter
+#     objectCode = 0b0
+#     for i in range(lineCounter):
+#         if opcode[i] == 0 or opcode[i].lower() == "start" or opcode[i].lower() == "resw" or opcode[i].lower() == "resb":
+#             objectCodeList[i] = 0
+#             continue
+#         else:
+#             format = dict.get(opcode[i].upper())
+#
+#             if format == 2:
+#                 objectCode = obTable.get(opcode[i].upper())
+#                 print(hex(objectCode))
+#                 objectCodeList[i] = objectCode
+#                 '''
+#                 format 2 lessa na2saaaaaa
+#                 '''
+#             elif format == 3:
+#                 objectCode =  obTable.get(opcode[i].upper())
+#             elif format == 4:
+#                 objectCode = obTable.get(opcode[i].upper())
+
+
+def headerRecord():
+    global lineCounter
+    header = "H^"
+    for i in range(lineCounter):
+        if label[i] != "" and label[i] != 0 and opcode[i].lower() == "start":
+            header = header + str(label[i])+"^"+str(operand[i])+"^"
+    header = header + str(hex(address[lineCounter]-address[0]))[2:]
+    return header
+def endRecord():
+    return "E^"+str(hex(address[0]))[2:].upper()
+
+
+
+
+def objectFile():
+    global lineCounter
+    h = headerRecord()
+    e = endRecord()
+    print(h)
+    print(e)
+
+
+
+
+
 
 
 
 readFile()
 writeFile()
+objectFile()
+# for i in range(lineCounter):
+#     if label[i] != "" and label[i] != 0:
+#         print(str(i)+str(label[i]))
+# getObjectCode()
+
 # for i in range(lineCounter):
 #         print(errors[i])
 

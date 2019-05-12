@@ -4,6 +4,7 @@ opcode = {}
 operand = {}
 comment = {}
 errors = {}
+objectCodeList = {}
 lineCounter = 0
 commentCounter = 0
 commentLocation = {}
@@ -37,3 +38,7 @@ instructionDict = {"rmo","lda","+lda","sta","+sta",
 
 registers = {"a","b","s","t","x","l"}
 ropcodes = {"rmo","tixr","addr","subr","comr"}
+obTable = {"ADD"  :0x18 ,"ADDR"  :0x90,"COMP" :0x28,"COMPR" :0xA0,"J":0x3C,"JEQ" : 0x30,"JGT"  :0x34,
+"JLT" :0x38,"LDA"  :0x00 ,"LDCH" :0x50, "LDL"  :0x08,"LDS"  :0x6C,"LDT"  :0x74
+,"LDX"  :0x04,"RMO"  :0xAC,"STA"  :0x0C,"STB" :0x78,"STCH" :0x54,"STL"  :0x14,"STS" :0x7C,"STT":0x84,"STX"  :0x10,
+"SUB" :0x1C,"SUBR"  :0x94,"TIX" :0x2C,"TIXR"  :0x88}

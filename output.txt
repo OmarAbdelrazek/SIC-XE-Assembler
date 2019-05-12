@@ -4,10 +4,10 @@ LBL1	0X3A0
 label	0X3A9
 LBL3	0X3A9
 LBL3	0X3C8
-LBL2	0X3D1
-TOP	0X3D1
-zero	0X3D7
-ttt	0X3E0
+LBL2	0X3D0
+TOP	0X3D0
+zero	0X3DA
+ttt	0X3E3
 *************************************************************
 Line no.	Address	Label	Op-code	Operands	Comments
 1	0X3A0	TERMPROJ	START	3A0
@@ -24,15 +24,17 @@ Line no.	Address	Label	Op-code	Operands	Comments
 	-----ERROR: undefined symbol test-----
 9	0X3CB		j	TOP
 10	.comment 2
-11	0X3CE		lda	meaw3
-	-----ERROR: undefined symbol meaw3-----
-12	0X3D1	LBL2	RESB
+11	0X3CE		rmo	meaw3
+	-----ERROR: illegal address for register-----
+12	0X3D0	LBL2	RESB
 	-----ERROR: missing operand-----
-13	0X3D1		END	1000
-14	0X3D1	TOP	LDA	zero
-15	0X3D4		lda	1000
-16	0X3D7	zero	resw	1
-17	0X3DA		LDX	#ttt
-18	0X3DD		lda	meaw
+13	0X3D0		END	1000
+14	0X3D0	TOP	LDA	zero
+15	0X3D3		+lda	1000
+16	0X3D7		lda	#ttttt
+	-----ERROR: undefined symbol #ttttt-----
+17	0X3DA	zero	resw	1
+18	0X3DD		LDX	#ttt
+19	0X3E0		lda	meaw
 	-----ERROR: undefined symbol meaw-----
-19	0X3E0	ttt	resw	1
+20	0X3E3	ttt	resw	1
