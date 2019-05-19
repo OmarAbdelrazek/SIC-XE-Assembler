@@ -13,7 +13,7 @@ programCounter = 0
 currentAddress = 0
 foundStart = 0
 
-dict={'RMO': 2, 'LDCH': 3, 'STCH': 3, '+LDCH': 4, '+STCH': 4, 'ADD': 3, 'SUB': 3, 'ADDR': 3,
+dict={'RMO': 2, 'LDCH': 3, 'STCH': 3, '+LDCH': 4, '+STCH': 4, 'ADD': 3, 'SUB': 3, 'ADDR': 2,
       '+ADD': 4, '+SUB': 4,'SUBR': 2,
       'COMP': 3, '+COMP': 4, 'COMPR': 2,
       'J': 3, 'JEQ': 3,'JLT': 3, 'JGT': 3, 'TIX': 3, 'TIXR': 2,

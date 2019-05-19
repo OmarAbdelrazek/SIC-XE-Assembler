@@ -111,12 +111,12 @@ def writeFile():
                         operand[i]) + "\n")
                 else:
                     file.write(str(i+1) + "\t\t" + str(hex(address[i])).upper() + "\t\t" + str(label[i]) + "\t\t" + str(opcode[i]) + "\t\t" + str(
-                    operand[i]) + "\t\t"+objectCodeList[i]+"\n" )
+                    operand[i]) + "\t\t"+"\n" )
             else:
                 file.write(str(i + 1) + "\t\t" + str(hex(address[i])).upper() + "\t\t" + str(label[i]) +"\t\t" + str(opcode[i]) +"\n")
 
         else:
-            file.write(str(i+1) +"\t\t"+str(comment[i]) +"\t\t"+objectCodeList[i]+ "\n")
+            file.write(str(i+1) +"\t\t"+str(comment[i]) +"\t\t"+ "\n")
         if err != 0:
             file.write(str(err) + "\n")
     file.close()
@@ -193,7 +193,7 @@ def undeinedCheck(i):
     global errorFound
     if "+" in operand[i] or "-" in operand[i]:
         splittedOperand = re.split("[+ -]",operand[i])
-        print((splittedOperand))
+        # print((splittedOperand))
         for j in range(len(splittedOperand)):
             if isinstance(splittedOperand[j], str) and isinstance(opcode[i], str) and not (opcode[i].upper() in directives) \
                     and splittedOperand[j][0:1].lower() != "x" and splittedOperand[j][0:1].lower() != "c":
@@ -203,7 +203,7 @@ def undeinedCheck(i):
                 else:
 
                     err = 0
-                    print("111111")
+                    # print("111111")
 
                     if   splittedOperand[j][0:1] == "#" or  splittedOperand[j][0:1] == "@" :
                         if (isString(splittedOperand[j][1:]) == "true"):
@@ -280,27 +280,7 @@ def undeinedCheck(i):
 
 
 
-# def getObjectCode():
-#     global lineCounter
-#     objectCode = 0b0
-#     for i in range(lineCounter):
-#         if opcode[i] == 0 or opcode[i].lower() == "start" or opcode[i].lower() == "resw" or opcode[i].lower() == "resb":
-#             objectCodeList[i] = 0
-#             continue
-#         else:
-#             format = dict.get(opcode[i].upper())
-#
-#             if format == 2:
-#                 objectCode = obTable.get(opcode[i].upper())
-#                 print(hex(objectCode))
-#                 objectCodeList[i] = objectCode
-#                 '''
-#                 format 2 lessa na2saaaaaa
-#                 '''
-#             elif format == 3:
-#                 objectCode =  obTable.get(opcode[i].upper())
-#             elif format == 4:
-#                 objectCode = obTable.get(opcode[i].upper())
+
 
 
 
@@ -384,8 +364,8 @@ def getObjectCode(format,i):
             flg="".join(flags)
             opcodeWflag=getHexa(objectCode+flg)
             opject=opcodeWflag+disp
-            print(opcode[i])
-            print(opject)
+            # print(opcode[i])
+            # print(opject)
         elif format==4:
             flags[5]="1"
             flags[3]="0"
@@ -406,8 +386,8 @@ def getObjectCode(format,i):
             flg = "".join(flags)
             opcodeWflag = getHexa(objectCode + flg)
             opject = opcodeWflag + disp
-            print(opcode[i])
-            print('format 44:   '+opject)
+            # print(opcode[i])
+            # print('format 44:   '+opject)
     return opject
 
 
@@ -466,10 +446,11 @@ def textRecord(startAddress , endAddress):
             objectCodeList[i] = objectCode
             textR = textR + "^"+objectCode
             if  (i+1) < lineCounter:
-                print(dict.get(opcode[i+1].upper()))
+                # writeFile()(dict.get(opcode[i+1].upper()))
                 length = length + dict.get(opcode[i+1].upper())
-            if  length > 30 :
-                textR = textR + "\n" + textR + "T^"+str(hex(address[i]))[2:]
+                print(length)
+            if  length >= 30 :
+                textR = textR + "\n" +  "T^"+str(hex(address[i]))[2:]
                 length=0
     return textR
 
@@ -486,9 +467,9 @@ def objectFile():
     e = endRecord()
     t = textRecord(address[0],address[lineCounter])
     file.write(h+"\n"+t+"\n"+e)
-    print(h)
-    print(t)
-    print(e)
+    # print(h)
+    # print(t)
+    # print(e)
 
 def getAddress(i):
     global lineCounter
@@ -505,7 +486,7 @@ def getAddress(i):
     return 0
 def addressSearch(lbl):
     global lineCounter
-    print(lbl)
+    # print(lbl)
     for i in range(lineCounter):
         if isinstance(label[i],str) and label[i] == lbl:
             return address[i]
