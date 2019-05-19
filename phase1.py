@@ -1,4 +1,6 @@
 import string
+import re
+import ast
 import numbers
 from dictionaries import *
 
@@ -18,9 +20,8 @@ def is_hex(s):
         return False
 
 def getPC(op, operand):
-    if op.upper() in dict:
-        return dict[op.upper()]
-    elif op.upper() == 'RESB':
+
+    if op.upper() == 'RESB':
         return int(operand)
     elif op.upper() == 'RESW':
         return 3 * int(operand)
@@ -32,6 +33,8 @@ def getPC(op, operand):
             return  len(operand) - 3
         if "x'" in str(operand).lower():
             return int(3*len(operand)-3)+1
+    elif op.upper() in dict:
+        return dict[op.upper()]
 
     else:
         # print("elseeeee")
@@ -96,64 +99,77 @@ def writeFile():
             file.write(str(label[i])+"\t"+str(hex(address[i])).upper()+"\n")
 
     file.write("*************************************************************\n")
-    file.write("Line no.\t" + "Address\t" + "Label\t" + "Op-code\t" + "Operands\t" + "Comments\n")
+    file.write("Line no.\t" + "Address\t" + "Label\t" + "Op-code\t" + "Operands\t" + "Comments\t"+"ObjectCode\n")
     for i in range(lineCounter):
         err = checkForError(i)
 
         if comment[i] == 0:
             if operand[i] != 0:
-                file.write(str(i+1) + "\t" + str(hex(address[i])).upper() + "\t" + str(label[i]) + "\t" + str(opcode[i]) + "\t" + str(
-                operand[i]) + "\n" )
+                if opcode[i].lower()=="equ":
+                    file.write(str(i + 1) + "\t\t" + str(hex(address[i-1])).upper() + "\t\t" + str(label[i]) + "\t\t" + str(
+                        opcode[i]) + "\t\t" + str(
+                        operand[i]) + "\n")
+                else:
+                    file.write(str(i+1) + "\t\t" + str(hex(address[i])).upper() + "\t\t" + str(label[i]) + "\t\t" + str(opcode[i]) + "\t\t" + str(
+                    operand[i]) + "\t\t"+objectCodeList[i]+"\n" )
             else:
-                file.write(str(i + 1) + "\t" + str(hex(address[i])).upper() + "\t" + str(label[i]) +"\t" + str(opcode[i]) +"\n")
+                file.write(str(i + 1) + "\t\t" + str(hex(address[i])).upper() + "\t\t" + str(label[i]) +"\t\t" + str(opcode[i]) +"\n")
 
         else:
-            file.write(str(i+1) +"\t"+str(comment[i]) + "\n")
+            file.write(str(i+1) +"\t\t"+str(comment[i]) +"\t\t"+objectCodeList[i]+ "\n")
         if err != 0:
             file.write(str(err) + "\n")
     file.close()
 
-
-
-
 def isString(s):
-    i = len(s)-1
-    # print(s[i])
-    while i:
+    for i in range(0 , len(s)):
         if (s[i] >= "a" and s[i] <= "z") or (s[i] >= "A" and s[i] <= "Z"):
-            return "true"
-        i -= 1
-    return "false"
+            return  "true"
+            continue
+
+        else:
+            return "false"
+
 
 
 def checkForError(i):
-    global lineCounter
+    global lineCounter,errorFound
     err = 0
 
     for j in range(i):
-        if label[i] == label[j] and label[j] != 0 and label[j] != "" :
+        if label[i] == label[j] and label[j] != 0 and label[j] != "" and isinstance(opcode[i],str) and opcode[i].lower() != "equ" :
+            errorFound = 1
             err = "\t-----ERROR: duplicate label "+label[i]+"-----"
             break
 
     if label[i] != "" and label[i] !=0 and (str(opcode[i]).lower() == "end" or str(opcode[i]).lower() == "org") :
+        errorFound = 1
         err = "\t-----ERROR: this statement can’t have a label "
     elif opcode[i]== "@" :
+        errorFound = 1
         err = "\t-----ERROR: missing operation-----"
     elif str(opcode[i]).lower() in directives:
+        errorFound = 1
         err = "\t-----ERROR: wrong operation prefix "+opcode[i]+"-----"
     elif str(opcode[i]).lower() not in instructionDict and opcode[i] != 0:
+        errorFound = 1
         err = "\t-----ERROR:unrecognized operation code "+opcode[i]+"-----"
     elif isinstance(operand[i],str) and not(is_hex(str(operand[i][2:-1]))) and str(opcode[i]).lower() == "byte":
+        errorFound = 1
         err = "\t-----ERROR: not a hexadecimal string " + operand[i]+"-----"
     elif isinstance(opcode[i],str) and opcode[i] in notFormat4:
+        errorFound = 1
         err = "\t-----ERROR: cant be format 4: " + operand[i]+"-----"
     elif not("end" in str(opcode).lower()) and i == lineCounter-2:
+        errorFound = 1
         err = "\t-----ERROR: missing end statement-----"
     elif operand[i]==0 and not str(opcode[i]).lower()=="base" and not(isinstance(comment[i],str)):
+        errorFound = 1
         err = "\t-----ERROR: missing operand-----"
     elif (str(opcode[i]).lower() == "equ" or str(opcode[i]).lower() == "resw" or str(opcode[i]).lower() == "resb"\
             or str(opcode[i]).lower() == "byte" or str(opcode[i]).lower() == "word"):
         if str(label[i]) == "":
+            errorFound = 1
             err = "\t-----ERROR: missing label-----"
 
     elif str(opcode[i]).lower() in ropcodes:
@@ -161,52 +177,106 @@ def checkForError(i):
         register=str(operand[i]).split(',')
         for k in range (len(register)):
             if register[k].lower() not in registers:
+                errorFound = 1
                 err = "\t-----ERROR: illegal address for register-----"
                 break
-    elif isinstance(operand[i],str) and isinstance(opcode[i],str)   and not(opcode[i].upper() in directives)\
-        and  operand[i][0:1].lower() != "x" and operand[i][0:1].lower() != "c":
-            if operand[i][0:1] == "#" :
-                if (isString(operand[i][1:]) == "true"):
-                    found = 0
-                    # print(operand[i][1:])
-                    for j in range(lineCounter):
-                        if isinstance(label[j],int) :
-                            continue
-                        elif operand[i][1:] == label[j] :
-                            # print(operand[i] +"    "+label[j])
-                            found = 1
-                else:
-                    found = 1
-            elif  operand[i][0:1] != "#" and isString(operand[i][1:]) == "false":
-                found = 1
-            else :
-                found =0
-                # print(operand[i])
-                for j in range(lineCounter):
-                    if operand[i] == label[j]:
-                        found = 1
+    elif isinstance(operand[i], str) and isinstance(opcode[i], str) and not (opcode[i].upper() in directives) \
+            and operand[i][0:1].lower() != "x" and operand[i][0:1].lower() != "c":
 
-
-            if found == 0:
-                err = "\t-----ERROR: undefined symbol "+operand[i]+"-----"
-
-
-
+        err = undeinedCheck(i)
     return err
 
 
-def CombineByte(b1, b2):
-    combined = b1 << 8 | b2
-    return combined
-def CombineFlags(b1, b2):
-    combined = b1 << 6 | b2
-    return combined
-def Combine12(b1, b2):
-    combined = b1 << 12 | b2
-    return combined
-def Combine20(b1, b2):
-    combined = b1 << 20 | b2
-    return combined
+
+
+def undeinedCheck(i):
+    global errorFound
+    if "+" in operand[i] or "-" in operand[i]:
+        splittedOperand = re.split("[+ -]",operand[i])
+        print((splittedOperand))
+        for j in range(len(splittedOperand)):
+            if isinstance(splittedOperand[j], str) and isinstance(opcode[i], str) and not (opcode[i].upper() in directives) \
+                    and splittedOperand[j][0:1].lower() != "x" and splittedOperand[j][0:1].lower() != "c":
+                if isString(splittedOperand[j]) == "false":
+                    found = 1
+                    break
+                else:
+
+                    err = 0
+                    print("111111")
+
+                    if   splittedOperand[j][0:1] == "#" or  splittedOperand[j][0:1] == "@" :
+                        if (isString(splittedOperand[j][1:]) == "true"):
+
+                            found = 0
+                            # print(operand[i][1:])
+                            for k in range(lineCounter):
+                                if isinstance(label[k], int):
+                                    continue
+                                elif splittedOperand[k][1:] == label[k]:
+                                    # print(operand[i] +"    "+label[j])
+                                    found = 1
+                        else:
+                            found = 1
+
+                    elif splittedOperand[j][0:1] != "#" and isString(splittedOperand[j][1:]) == "false":
+                        found = 1
+
+                    else:
+
+                        found = 0
+                        # print(operand[i])
+                        print(splittedOperand[j])
+                        for l in range(lineCounter):
+                            if splittedOperand[j] == label[l]:
+                                found = 1
+                    if found == 0:
+                        errorFound = 1
+
+                        err = "\t-----ERROR: undefined symbol " + splittedOperand[j] + "-----"
+                        break
+
+
+        return err
+    else:
+        sop = operand[i]
+        if ",x" in operand[i] :
+            sop = operand[i].replace(",x",'')
+        if  ",X" in operand[i]:
+            sop = operand[i].replace(",X", '')
+        if isinstance(sop, str) and isinstance(opcode[i], str) and not (opcode[i].upper() in directives) \
+                and sop[0:1].lower() != "x" and sop[0:1].lower() != "c":
+            err = 0
+            if sop[0:1] == "#" or sop[0:1] == "@":
+                if (isString(sop[1:]) == "true"):
+                    found = 0
+                    # print(sop[1:])
+                    for j in range(lineCounter):
+                        if isinstance(label[j], int):
+                            continue
+                        elif sop[1:] == label[j]:
+                            # print(sop +"    "+label[j])
+                            found = 1
+                else:
+                    found = 1
+            elif sop[0:1] != "#" and isString(sop[1:]) == "false":
+                found = 1
+            else:
+                found = 0
+                # print(operand[i])
+                for j in range(lineCounter):
+                    if sop == label[j]:
+                        found = 1
+
+            if found == 0:
+                errorFound = 1
+                err = "\t-----ERROR: undefined symbol " + sop + "-----"
+        return err
+
+
+
+
+
 
 
 
@@ -233,6 +303,9 @@ def Combine20(b1, b2):
 #                 objectCode = obTable.get(opcode[i].upper())
 
 
+
+
+
 def headerRecord():
     global lineCounter
     header = "H^"
@@ -241,29 +314,234 @@ def headerRecord():
             header = header + str(label[i])+"^"+str(operand[i])+"^"
     header = header + str(hex(address[lineCounter]-address[0]))[2:]
     return header
+
 def endRecord():
     return "E^"+str(hex(address[0]))[2:].upper()
 
+def getObjectCode(format,i):
+    if format == 2:
+        objectCode = str(hex(obTableHex.get(opcode[i].upper())))[2:].upper()
+        splittedOperand = operand[i].split(',')
+        opject = objectCode + str(registersOpcodeHex.get(splittedOperand[0].upper())).upper() +\
+                     str(registersOpcodeHex.get(splittedOperand[1].upper())).upper()
+        # print(objectCode)
+
+    else:
+        objectCode = obTable.get(opcode[i].upper())
+        objectCode=objectCode[0:6]
+        flg="000000"
+        flags=list(flg)
+        opr=operand[i]
+        if operand[i][0]=="@":
+            flags[0]="1"
+            opr=opr[1:]
+        elif operand[i][0]=="#":
+            flags[1]="1"
+            opr=opr[1:]
+        if ",X" in operand[i]:
+            flags[2]="1"
+            opr=opr.replace(",X",'')
+        if ",x" in operand[i]:
+            flags[2]="1"
+            opr=opr.replace(",x",'')
+        label_found=0
+        for j in range(lineCounter):
+            if label[j] == opr.upper():
+                adr = address[j]
+                label_found=1
+                break
+        if label_found==0:
+            oprcheck = re.split("[+ -]",opr)
+            if len(oprcheck) > 1:
+                adr = simpleExpressionEvaluation(i)
+                print("lllllllll")
+                print(str(hex(adr)))
+            else:
+                adr=int(opr,10)
+        if format==3:
+            if flags[0]=="0" and flags[1]=="0":
+                flags[0]="1"
+                flags[1]="1"
+            flags[5]="0"
+            if operand[i][0]=="#" and label_found==0:
+                disp=adr
+                disp=hex(disp).upper()
+                disp=disp[2:]
+            else:
+                disp=adr-address[i+1]
+                if disp<2047 or disp >-2048:
+                    flags[4]="1"
+                    flags[3]="0"
+                elif disp<4095 and disp >0:
+                    return "error in displacment"
+                    flags[3]="1"
+                    flags[4]="0"
+                disp=hex(disp).upper()
+                disp=disp[2:]
+            while len(disp)<3:
+                disp="0"+disp
+            disp=disp[-3:]
+            flg="".join(flags)
+            opcodeWflag=getHexa(objectCode+flg)
+            opject=opcodeWflag+disp
+            print(opcode[i])
+            print(opject)
+        elif format==4:
+            flags[5]="1"
+            flags[3]="0"
+            flags[4]="0"
+            if flags[0] == "0" and flags[1] == "0":
+                flags[0] = "1"
+                flags[1] = "1"
+            if operand[i][0] == "#" and label_found == 0:
+                disp = adr
+                disp = hex(disp).upper()
+                disp = disp[2:]
+            else:
+                disp = hex(adr).upper()
+                disp = disp[2:]
+            while len(disp) < 5:
+                disp = "0" + disp
+            disp = disp[-5:]
+            flg = "".join(flags)
+            opcodeWflag = getHexa(objectCode + flg)
+            opject = opcodeWflag + disp
+            print(opcode[i])
+            print('format 44:   '+opject)
+    return opject
 
 
+
+def getAddress(i):
+    global lineCounter
+    if operand[i][0:1] == "@":
+        indirectFlag = 1
+    if operand[i][0:1] == "#" or operand[i][0:1] == "@":
+        target = operand[i][1:]
+    else:
+        target = operand[i]
+    for j in range(lineCounter):
+        if isinstance(label[j], str) and label[j].lower() == target.lower() :
+            return address[j]
+
+    return 0
+
+def getB(i):
+    global lineCounter
+    value = 0
+    if operand[i][0:1] == "#" or operand[i][0:1] == "@":
+        target = operand[i][1:]
+
+    for j in range(i,0,-1):
+        if   opcode[j].lower() == "ldb":
+            # print("innnnn")
+            if isString(operand[j][1:]) == "true":
+                value = getAddress(j)
+                return value
+
+
+            else:
+                # print("in elseeee")
+                value = operand[j][1:]
+                return value
+
+
+
+
+
+
+
+def textRecord(startAddress , endAddress):
+    global lineCounter
+    length = 0
+    textR = "T^"+str(hex(startAddress))[2:]
+    for i in range(lineCounter):
+        if opcode[i] == 0 or opcode[i].lower() == "start" or opcode[i].lower() == "resw" or opcode[i].lower() == "resb"\
+                or opcode[i].lower()=="word" or opcode[i].lower()=="end" or opcode[i].lower() == "equ"or opcode[i].lower() == "byte":
+            objectCodeList[i] = ""
+            continue
+        else:
+            format = dict.get(opcode[i].upper())
+            objectCode = getObjectCode(format,i)
+            objectCodeList[i] = objectCode
+            textR = textR + "^"+objectCode
+            if  (i+1) < lineCounter:
+                print(dict.get(opcode[i+1].upper()))
+                length = length + dict.get(opcode[i+1].upper())
+            if  length > 30 :
+                textR = textR + "\n" + textR + "T^"+str(hex(address[i]))[2:]
+                length=0
+    return textR
+
+
+def getHexa(s):
+    s = [s[i:i + 4] for i in range(0, len(s), 4)]
+    out = binToHex.get(s[0]) + binToHex.get(s[1]) + binToHex.get(s[2])
+    return  out
 
 def objectFile():
+    file=open("objFile.txt","w")
     global lineCounter
     h = headerRecord()
     e = endRecord()
+    t = textRecord(address[0],address[lineCounter])
+    file.write(h+"\n"+t+"\n"+e)
     print(h)
+    print(t)
     print(e)
 
+def getAddress(i):
+    global lineCounter
+    if operand[i][0:1] == "@":
+        indirectFlag = 1
+    if operand[i][0:1] == "#" or operand[i][0:1] == "@":
+        target = operand[i][1:]
+    else:
+        target = operand[i]
+    for j in range(lineCounter):
+        if isinstance(label[j], str) and label[j].lower() == target.lower() :
+            return address[j]
 
+    return 0
+def addressSearch(lbl):
+    global lineCounter
+    print(lbl)
+    for i in range(lineCounter):
+        if isinstance(label[i],str) and label[i] == lbl:
+            return address[i]
+    return 0
 
+def checkForEqu():
+    global lineCounter
+    for i in range(lineCounter):
+        if isinstance(opcode[i],str) and opcode[i].lower() == "equ":
+            adrs = getAddress(i)
+            address[i] = adrs
 
+def simpleExpressionEvaluation(i):
+    strExpression = ""
+    splittedOperando = re.split("([+ -])", operand[i].replace(" ", ""))
+    for f in range(len(splittedOperando)):
+        if splittedOperando[f] == "+":
+            strExpression = str(strExpression) + "+"
+        elif splittedOperando[f] == "-":
+            strExpression = str(strExpression) + "-"
+        elif isString(splittedOperando[f]) == "true":
+            strExpression = strExpression + str(hex(addressSearch(splittedOperando[f])))
+        elif isString(splittedOperando[f]) == "false":
+            strExpression = strExpression + str(splittedOperando[f])
 
-
+    return (ast.literal_eval(strExpression))
 
 
 readFile()
+checkForEqu()
+if errorFound == 0:
+    objectFile()
 writeFile()
-objectFile()
+print("object code list")
+# for i in range(lineCounter):
+#     print(objectCodeList[i])
 # for i in range(lineCounter):
 #     if label[i] != "" and label[i] != 0:
 #         print(str(i)+str(label[i]))

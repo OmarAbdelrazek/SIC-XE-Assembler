@@ -1,20 +1,15 @@
-TERMPROJ START 3A0
-.THIS IS A COMMENT LINE
-LBL1 BYTE         C'ABCDEF'
-   addr   a,b
-label
-LBL3 BYTE         x'ABCrDEF'
- RESW 1
-LBL3 lda test
- j TOP
-.comment 2
- rmo meaw3
-LBL2 RESB
-   END    1000
-TOP LDA zero
- +lda 1000
- lda #ttttt
-zero resw 1
- LDX #ttt
- lda meaw
-ttt resw 1
+Q        START   1000
+         LDX     #10
+         LDT     GAMMA
+         LDB     ALPHA+10-DELTA
+test     equ     delta
+         +LDA    ALPHA+10
+         COMPR   A,S
+         STS     ALPHA,X
+         LDA     #3
+         SUBR    S,A
+ALPHA    RESW    1
+BETA     WORD    25
+GAMMA    WORD    4
+DELTA    RESW    1
+   END     Q
