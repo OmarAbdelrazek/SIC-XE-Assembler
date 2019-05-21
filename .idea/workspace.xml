@@ -3,11 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="1fb5e347-ed77-4fb7-b002-349542a17d13" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dictionaries.py" beforeDir="false" afterPath="$PROJECT_DIR$/dictionaries.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/objFile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/objFile.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/phase1.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test2.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +19,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/phase1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="116" lean-forward="true" selection-start-line="116" selection-end-line="116" />
+            <state relative-caret-position="217">
+              <caret line="442" column="43" selection-start-line="442" selection-start-column="43" selection-end-line="442" selection-end-column="43" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -32,8 +31,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/objFile.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="2" selection-end-column="6" />
+            <state relative-caret-position="34">
+              <caret line="2" column="6" lean-forward="true" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -41,8 +40,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/omar/phase1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6987">
-              <caret line="413" selection-start-line="413" selection-end-line="413" />
+            <state relative-caret-position="6647">
+              <caret line="395" selection-start-line="395" selection-end-line="395" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -53,8 +52,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/dictionaries.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="22" column="100" selection-start-line="22" selection-start-column="100" selection-end-line="22" selection-end-column="100" />
+            <state relative-caret-position="231">
+              <caret line="48" column="26" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="26" />
             </state>
           </provider>
         </entry>
@@ -62,8 +61,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/output.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2">
-              <caret line="2" column="14" lean-forward="true" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+            <state relative-caret-position="270">
+              <caret line="21" column="57" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
             </state>
           </provider>
         </entry>
@@ -71,8 +70,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/input.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="14" selection-end-column="12" />
+            <state relative-caret-position="170">
+              <caret line="10" column="28" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -103,6 +102,10 @@
       <find>repla</find>
       <find>errorFound</find>
       <find>repl</find>
+      <find>textRecord</find>
+      <find>print</find>
+      <find>x</find>
+      <find>DONE</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -125,9 +128,10 @@
         <option value="$PROJECT_DIR$/phase2.py" />
         <option value="$PROJECT_DIR$/test2.py" />
         <option value="$PROJECT_DIR$/output.txt" />
+        <option value="$PROJECT_DIR$/objFile.txt" />
         <option value="$PROJECT_DIR$/dictionaries.py" />
-        <option value="$PROJECT_DIR$/input.txt" />
         <option value="$PROJECT_DIR$/phase1.py" />
+        <option value="$PROJECT_DIR$/input.txt" />
       </list>
     </option>
   </component>
@@ -143,7 +147,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -160,6 +163,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -383,7 +387,21 @@
       <option name="project" value="LOCAL" />
       <updated>1557636818632</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Phase 2 : DONE!!">
+      <created>1558290856376</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1558290856376</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Phase 2 : DONE 2!!">
+      <created>1558293191860</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1558293191860</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -429,7 +447,9 @@
     <MESSAGE value="undefined label added" />
     <MESSAGE value="update" />
     <MESSAGE value="phase 2:&#10;    header and end record : Done&#10;    lessa T record" />
-    <option name="LAST_COMMIT_MESSAGE" value="phase 2:&#10;    header and end record : Done&#10;    lessa T record" />
+    <MESSAGE value="Phase 2 : DONE!!" />
+    <MESSAGE value="Phase 2 : DONE 2!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 2 : DONE 2!!" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/venv/intput.txt" />
@@ -466,10 +486,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1522231934/builtins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="1110" column="8" selection-start-line="1110" selection-start-column="8" selection-end-line="1110" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/omar/phase1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6987">
-          <caret line="413" selection-start-line="413" selection-end-line="413" />
+        <state relative-caret-position="6647">
+          <caret line="395" selection-start-line="395" selection-end-line="395" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
@@ -485,43 +512,36 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dictionaries.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="22" column="100" selection-start-line="22" selection-start-column="100" selection-end-line="22" selection-end-column="100" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-1522231934/builtins.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="1110" column="8" selection-start-line="1110" selection-start-column="8" selection-end-line="1110" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/objFile.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="2" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/output.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2">
-          <caret line="2" column="14" lean-forward="true" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
+        <state relative-caret-position="231">
+          <caret line="48" column="26" selection-start-line="48" selection-start-column="23" selection-end-line="48" selection-end-column="26" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/input.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret selection-end-line="14" selection-end-column="12" />
+        <state relative-caret-position="170">
+          <caret line="10" column="28" selection-start-line="10" selection-start-column="23" selection-end-line="10" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/objFile.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="6" lean-forward="true" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/output.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="21" column="57" selection-start-line="21" selection-start-column="57" selection-end-line="21" selection-end-column="57" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/phase1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="116" lean-forward="true" selection-start-line="116" selection-end-line="116" />
+        <state relative-caret-position="217">
+          <caret line="442" column="43" selection-start-line="442" selection-start-column="43" selection-end-line="442" selection-end-column="43" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>

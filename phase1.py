@@ -92,25 +92,26 @@ def readFile():
 def writeFile():
     global lineCounter
     file = open('output.txt','w')
-    file.write("Symbol table\n")
-    file.write("name\taddress")
+    file.write("\t\t\tSymbol table\n")
+    file.write("\t\t"+"name\t\taddress\n")
     for i in range(lineCounter):
         if label[i] != "" and label[i] != 0:
-            file.write(str(label[i])+"\t"+str(hex(address[i])).upper()+"\n")
-
+            # file.write("\t\t"+str(label[i])+"        "+str(hex(address[i])).upper()+"\n")
+            file.write('\t\t{} \t\t{}'.format(str(label[i]), str(hex(address[i])).upper())+"\n")
     file.write("*************************************************************\n")
-    file.write("Line no.\t" + "Address\t" + "Label\t" + "Op-code\t" + "Operands\t" + "Comments\t"+"ObjectCode\n")
+    file.write("Line no.\t" + "Address\t" + "Label\t" + "Op-code\t" + "\t\tOperands\t" + "Comments\t"+"\n")
     for i in range(lineCounter):
         err = checkForError(i)
 
         if comment[i] == 0:
             if operand[i] != 0:
                 if opcode[i].lower()=="equ":
-                    file.write(str(i + 1) + "\t\t" + str(hex(address[i-1])).upper() + "\t\t" + str(label[i]) + "\t\t" + str(
+                    file.write(str(i + 1) + "\t\t" + str(hex(address[i-1])).upper() + "\t\t" + str(label[i]) + "\t\t\t\t" + str(
                         opcode[i]) + "\t\t" + str(
                         operand[i]) + "\n")
+
                 else:
-                    file.write(str(i+1) + "\t\t" + str(hex(address[i])).upper() + "\t\t" + str(label[i]) + "\t\t" + str(opcode[i]) + "\t\t" + str(
+                    file.write(str(i+1) + "\t\t" + str(hex(address[i])).upper() + "\t\t" + str(label[i]) + "\t\t" + str(opcode[i]) + "\t\t\t\t" + str(
                     operand[i]) + "\t\t"+"\n" )
             else:
                 file.write(str(i + 1) + "\t\t" + str(hex(address[i])).upper() + "\t\t" + str(label[i]) +"\t\t" + str(opcode[i]) +"\n")
@@ -308,6 +309,7 @@ def getObjectCode(format,i):
 
     else:
         objectCode = obTable.get(opcode[i].upper())
+        print(opcode[i])
         objectCode=objectCode[0:6]
         flg="000000"
         flags=list(flg)
@@ -323,7 +325,7 @@ def getObjectCode(format,i):
             opr=opr.replace(",X",'')
         if ",x" in operand[i]:
             flags[2]="1"
-            opr=opr.replace(",x",'')
+            opr=opr.repLDBlace(",x",'')
         label_found=0
         for j in range(lineCounter):
             if label[j] == opr.upper():
@@ -437,7 +439,8 @@ def textRecord(startAddress , endAddress):
     textR = "T^"+str(hex(startAddress))[2:]
     for i in range(lineCounter):
         if opcode[i] == 0 or opcode[i].lower() == "start" or opcode[i].lower() == "resw" or opcode[i].lower() == "resb"\
-                or opcode[i].lower()=="word" or opcode[i].lower()=="end" or opcode[i].lower() == "equ"or opcode[i].lower() == "byte":
+                or opcode[i].lower()=="word" or opcode[i].lower()=="end" or opcode[i].lower() == "equ"or opcode[i].lower() == "byte"\
+                or opcode[i].lower() == "org":
             objectCodeList[i] = ""
             continue
         else:
@@ -445,8 +448,12 @@ def textRecord(startAddress , endAddress):
             objectCode = getObjectCode(format,i)
             objectCodeList[i] = objectCode
             textR = textR + "^"+objectCode
-            if  (i+1) < lineCounter:
+            if  (i+1) < lineCounter :
+                if opcode[i+1] == 0:
+                    length = length + 0
+                    continue
                 # writeFile()(dict.get(opcode[i+1].upper()))
+                print(opcode[i+1])
                 length = length + dict.get(opcode[i+1].upper())
                 print(length)
             if  length >= 30 :
@@ -467,9 +474,7 @@ def objectFile():
     e = endRecord()
     t = textRecord(address[0],address[lineCounter])
     file.write(h+"\n"+t+"\n"+e)
-    # print(h)
-    # print(t)
-    # print(e)
+
 
 def getAddress(i):
     global lineCounter
@@ -511,25 +516,15 @@ def simpleExpressionEvaluation(i):
             strExpression = strExpression + str(hex(addressSearch(splittedOperando[f])))
         elif isString(splittedOperando[f]) == "false":
             strExpression = strExpression + str(splittedOperando[f])
-
-    return (ast.literal_eval(strExpression))
+    print(strExpression)
+    return (ast.literal_eval(str(strExpression)))
 
 
 readFile()
+for i in range(lineCounter):
+    print(opcode[i])
 checkForEqu()
 if errorFound == 0:
     objectFile()
 writeFile()
 print("object code list")
-# for i in range(lineCounter):
-#     print(objectCodeList[i])
-# for i in range(lineCounter):
-#     if label[i] != "" and label[i] != 0:
-#         print(str(i)+str(label[i]))
-# getObjectCode()
-
-# for i in range(lineCounter):
-#         print(errors[i])
-
-# for i in range(lineCounter):
-#     print(str(i)+" "+str(hex(address[i]))+" "+str(label[i])+" "+str(opcode[i])+" "+str(operand[i])+"\t"+str(comment[i]))

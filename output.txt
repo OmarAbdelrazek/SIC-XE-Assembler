@@ -1,53 +1,27 @@
-Symbol table
-name	addressPrbn01	0X2000
-WHILE	0X2003
-FOR	0X2009
-REST	0X202A
-SWAP	0X204E
-STR	0X2060
-E1	0X2063
-E2	0X2066
-TEMP	0X2069
+			Symbol table
+		name		address
+		q 		0X1000
+		LENGTH 		0X1003
+		ARR 		0X1006
+		ALPHA 		0X3009
+		DELTA 		0X300C
+		BETA 		0X300F
+		GAMMA 		0X3012
 *************************************************************
-Line no.	Address	Label	Op-code	Operands	Comments	ObjectCode
-1		0X2000		Prbn01		START		2000		
-2		0X2000				LDB		#1		
-3		0X2003		WHILE		LDB		#0		
-4		0X2006				LDX		#0		
-5		0X2009		FOR		LDCH		STR,X		
-6		0X200C				RMO		A,T		
-7		0X200E				LDA		#STR		
-8		0X2011				ADDR		X,A		
-9		0X2013				STA		E1		
-10		0X2016				ADD		#1		
-11		0X2019				STA		E2		
-12		0X201C				RMO		X,A		
-13		0X201E				ADD		#1		
-14		0X2021				RMO		A,X		
-15		0X2023				LDCH		STR,X		
-16		0X2026				RMO		A,S		
-17		0X2028				COMPR		T,S		
-18		0X202A		REST		RMO		X,A		
-19		0X202C				SUB		#1		
-20		0X202F				RMO		A,X		
-21		0X2031				TIX		#3		
-22		0X2034				JLT		FOR		
-23		0X2037				LDA		#1		
-24		0X203A				COMPR		A,B		
-25		0X203C				JEQ		WHILE		
-26		0X203F				LDB		#1		
-27		0X2042				STA		E1		
-28		0X2045				STA		E2		
-29		0X2048				STA		TEMP		
-30		0X204B				J		REST		
-31		0X204E		SWAP		LDCH		@E1		
-32		0X2051				STCH		TEMP		
-33		0X2054				LDCH		@E2		
-34		0X2057				STCH		@E1		
-35		0X205A				LDCH		TEMP		
-36		0X205D				STCH		@E2		
-37		0X2060		STR		WORD		5		
-38		0X2063		E1		RESW		1		
-39		0X2066		E2		RESW		1		
-40		0X2069		TEMP		RESW		1		
-41		0X206C				END		Prbn01		
+Line no.	Address	Label	Op-code			Operands	Comments	
+1		0X1000		q		START				1000		
+2		0X1000				LDB				#LENGTH		
+3		0X1003		LENGTH		RESW				1		
+4		0X1006		ARR		RESW				2048		
+5		0X2806				LDX				BETA		
+6		0X2809				ADDR				T,X		
+7		0X280B				+STS				ALPHA		
+8		0X280F				ORG				3000		
+9		0X3000				STS				ALPHA,X		
+10		0X3003				LDA				@BETA		
+11		0X3006				LDA				ARR+1+DELTA-5		
+12		0X3009		ALPHA		RESW				1		
+13		0X300C		DELTA		RESW				1		
+14		0X300F		BETA		WORD				25		
+15		0X3012		GAMMA		WORD				4		
+16		0X3015				END				q		
