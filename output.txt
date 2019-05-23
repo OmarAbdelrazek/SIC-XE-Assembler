@@ -14,14 +14,15 @@ Line no.	Address	Label	Op-code			Operands	Comments
 3		0X1003		LENGTH		RESW				1		
 4		0X1006		ARR		RESW				2048		
 5		0X2806				LDX				BETA		
-6		0X2809				ADDR				T,X		
-7		0X280B				+STS				ALPHA		
-8		0X280F				ORG				3000		
-9		0X3000				STS				ALPHA,X		
-10		0X3003				LDA				@BETA		
-11		0X3006				LDA				ARR+1+DELTA-5		
-12		0X3009		ALPHA		RESW				1		
-13		0X300C		DELTA		RESW				1		
-14		0X300F		BETA		WORD				25		
-15		0X3012		GAMMA		WORD				4		
-16		0X3015				END				q		
+6		.comment		
+7		0X2809				ADDR				T,X		
+8		0X280B				+STS				ALPHA		
+9		0X280F				ORG				3000		
+10		0X3000				STS				ALPHA,X		
+11		0X3003				LDA				@BETA		
+12		0X3006				LDA				ARR+1+DELTA-5		
+13		0X3009		ALPHA		RESW				1		
+14		0X300C		DELTA		RESW				1		
+15		0X300F		BETA		WORD				25		
+16		0X3012		GAMMA		WORD				4		
+17		0X3015				END				q		

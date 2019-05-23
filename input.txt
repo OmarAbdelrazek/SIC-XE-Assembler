@@ -3,6 +3,7 @@ q         START   1000
 LENGTH   RESW    1
 ARR      RESW    2048
          LDX     BETA
+.comment
          ADDR    T,X
         +STS     ALPHA
          ORG     3000
