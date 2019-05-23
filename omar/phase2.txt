@@ -1,0 +1,20 @@
+.23456789012345678901234567890123456
+.Label.  Opcode  The  O p e r a n d 
+         START   1000
+         LDB     #LENGTH
+         BASE    LENGTH
+LENGTH   RESW    1
+ARR      RESW    2048
+         LDX     BETA
+         DIVR    T,X
+         +STS    ALPHA
+.         ORG     ARR
+         STS     ALPHA,X
+         LDA     @BETA
+         LDA     ARR
+.         LDA     @BETA,X
+ALPHA    RESW    1
+DELTA    RESW    1
+BETA     WORD    25
+GAMMA    WORD    4
+         END     

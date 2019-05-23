@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1fb5e347-ed77-4fb7-b002-349542a17d13" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/objFile.txt" beforeDir="false" afterPath="$PROJECT_DIR$/objFile.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/phase1.py" beforeDir="false" afterPath="$PROJECT_DIR$/phase1.py" afterDir="false" />
-    </list>
+    <list default="true" id="1fb5e347-ed77-4fb7-b002-349542a17d13" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,8 +13,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/phase1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="442" column="43" selection-start-line="442" selection-start-column="43" selection-end-line="442" selection-end-column="43" />
+            <state relative-caret-position="47">
+              <caret line="108" column="51" lean-forward="true" selection-start-line="108" selection-start-column="51" selection-end-line="108" selection-end-column="51" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -401,7 +395,14 @@
       <option name="project" value="LOCAL" />
       <updated>1558293191860</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Phase 2 : DONE - final!!">
+      <created>1558446752418</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1558446752418</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TodoView">
@@ -422,7 +423,7 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3297587" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32841823" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32841823" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3994638" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -449,7 +450,8 @@
     <MESSAGE value="phase 2:&#10;    header and end record : Done&#10;    lessa T record" />
     <MESSAGE value="Phase 2 : DONE!!" />
     <MESSAGE value="Phase 2 : DONE 2!!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Phase 2 : DONE 2!!" />
+    <MESSAGE value="Phase 2 : DONE - final!!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Phase 2 : DONE - final!!" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/venv/intput.txt" />
@@ -540,8 +542,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/phase1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="442" column="43" selection-start-line="442" selection-start-column="43" selection-end-line="442" selection-end-column="43" />
+        <state relative-caret-position="47">
+          <caret line="108" column="51" lean-forward="true" selection-start-line="108" selection-start-column="51" selection-end-line="108" selection-end-column="51" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
